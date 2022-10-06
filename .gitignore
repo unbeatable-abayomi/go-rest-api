@@ -1,1 +1,1 @@
-/database.go
+internal/transport/http/database/database.go
