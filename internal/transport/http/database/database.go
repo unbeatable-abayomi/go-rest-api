@@ -21,7 +21,7 @@ func NewDatabase()(*gorm.DB, error){
 	dbUsername := "postgres"
 	dbPassword := "abayomi"
 	dbHost := "localhost"
-	//dbName := "Restapi"
+	
 	dbTable:= "Restapi"
 	dbPort := 5432
 
