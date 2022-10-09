@@ -20,7 +20,7 @@ func NewDatabase()(*gorm.DB, error){
 
 	dbUsername := "postgres"
 	dbPassword := "abayomi"
-	dbHost := "localhost"
+	dbHost := "host.docker.internal"
 	
 	dbTable:= "Restapi"
 	dbPort := 5432
