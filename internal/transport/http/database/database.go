@@ -1,16 +1,17 @@
 package database
 
 import (
+	_ "database/sql"
 	"fmt"
-	_"os"
-    _"database/sql"
+	_ "os"
+
 	"github.com/jinzhu/gorm"
-	_"github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // NewDatabase - returns a pointer to a database object
 
-func NewDatabase()(*gorm.DB, error){
+func NewDatabase() (*gorm.DB, error) {
 	fmt.Println("Setting up new database connection")
 	// dbUsername := os.Getenv("DB_USERNAME")
 	// dbPassword := os.Getenv("DB_PASSWORD")
@@ -22,29 +23,24 @@ func NewDatabase()(*gorm.DB, error){
 	dbPassword := "abayomi"
 	dbHost := "localhost"
 	//dbHost := "host.docker.internal"
-	dbTable:= "Restapi"
+	dbTable := "Restapi"
 	dbPort := 5432
-
-
 
 	connectString := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=disable", dbHost, dbPort, dbUsername, dbTable, dbPassword)
 	db, err := gorm.Open("postgres", connectString)
-if err != nil {
- return db, err
-}
+	if err != nil {
+		return db, err
+	}
 
-if err := db.DB().Ping(); err != nil{
-	return db, err
-}
+	if err := db.DB().Ping(); err != nil {
+		return db, err
+	}
 
 	return db, nil
 }
 
-
-
 // func NewDatabase()(*sql.DB, error){
 // 	fmt.Println("Setting up new database connection")
-
 
 // 	dbUsername := "postgres"
 // 	dbPassword := "abayomi"
@@ -54,11 +50,8 @@ if err := db.DB().Ping(); err != nil{
 // 	dbPort := 5432
 // 	dbname := "CommentAPI"
 
-	
-
 // 	// connectString := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=disable", dbHost, dbPort, dbUsername, dbTable, dbPassword)
 // 	// db, err := gorm.Open("postgres", connectString)
-
 
 // 	url := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable",dbHost, dbPort, dbUsername, dbPassword)
 //      db, err := sql.Open("postgres", url)

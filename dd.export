@@ -1,0 +1,5 @@
+export DB_USERNAME=newkinddatabase    
+export DB_PASSWORD=1234567890    
+export DB_HOST=newkinddatabase.cxlnxakyrpfx.us-east-1.rds.amazonaws.com    
+export DB_USERNAME=5432   
+export DB_TABLE=defaultdb   
