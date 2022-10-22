@@ -81,6 +81,7 @@ func (h *Handler) PostComment (w http.ResponseWriter, r *http.Request){
 	if err != nil{
 		//fmt.Fprintf(w, "Failed to post new comment")
 		sendErrorResponse(w, "Failed to post new comment", err)
+			
 		return
 	}
 
