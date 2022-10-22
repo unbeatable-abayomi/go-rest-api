@@ -2,10 +2,11 @@ package http
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	_"html"
+	_ "html"
 	"net/http"
-	_"strconv"
+	_ "strconv"
 	"unbeatable-abayomi/go-rest-api/internal/comment"
 
 	"github.com/gorilla/mux"
@@ -30,6 +31,23 @@ func NewHandler(service *comment.Service) *Handler{
 	}
 }
 
+
+//BaiscAuth a handy middleware function that will provide basic auth around specfic endpoints
+
+func BasicAuth (original func(w http.ResponseWriter, r *http.Request)) func(w http.ResponseWriter, r *http.Request) {
+     return func(w http.ResponseWriter, r *http.Request) {
+		log.Info("Basic Auth Endpoint Hit")
+		user,pass, ok := r.BasicAuth()
+		if user == "admin" && pass == "password" && ok{
+			original(w,r)
+		}else{
+			w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+			sendErrorResponse(w,"not authorized", errors.New("Not Authorized")) 
+		}
+		
+	 }
+}
+
 //LoggingMiddleware adds Middleware around endpoints
 func LoggingMiddleware(next http.Handler) http.Handler{
      return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -48,10 +66,13 @@ func (h *Handler) SetupRoutes(){
 	h.Router= mux.NewRouter()
     h.Router.Use(LoggingMiddleware)
 	h.Router.HandleFunc("/api/comment", h.GetAllComments).Methods("GET")
-	h.Router.HandleFunc("/api/comment", h.PostComment).Methods("POST")
+	//h.Router.HandleFunc("/api/comment", h.PostComment).Methods("POST")
+	h.Router.HandleFunc("/api/comment", BasicAuth(h.PostComment)).Methods("POST")
 	h.Router.HandleFunc("/api/comment/{id}", h.GetComment).Methods("GET")
-	h.Router.HandleFunc("/api/comment/{id}", h.UpdateComment).Methods("PUT")
-	h.Router.HandleFunc("/api/comment/{id}", h.DeleteComment).Methods("DELETE")
+	//h.Router.HandleFunc("/api/comment/{id}", h.UpdateComment).Methods("PUT")
+	h.Router.HandleFunc("/api/comment/{id}", BasicAuth(h.UpdateComment)).Methods("PUT")
+	//h.Router.HandleFunc("/api/comment/{id}", h.DeleteComment).Methods("DELETE")
+	h.Router.HandleFunc("/api/comment/{id}", BasicAuth(h.DeleteComment)).Methods("DELETE")
 	
 	
 	h.Router.HandleFunc("/api/health", func (w http.ResponseWriter, r *http.Request)  {
