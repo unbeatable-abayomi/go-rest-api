@@ -7,17 +7,20 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	log "github.com/sirupsen/logrus"
 )
 
 // NewDatabase - returns a pointer to a database object
 
 func NewDatabase() (*gorm.DB, error) {
-	fmt.Println("Setting up new database connection")
+	//fmt.Println("Setting up new database connection")
+	log.Info("Setting up new database connection")
 	// dbUsername := os.Getenv("DB_USERNAME")
 	// dbPassword := os.Getenv("DB_PASSWORD")
 	// dbHost := os.Getenv("DB_HOST")
 	// dbTable := os.Getenv("DB_TABLE")
 	// dbPort := os.Getenv("DB_PORT")
+	// sslmode := os.Getenv("SSL_MODE")
 
 	dbUsername := "postgres"
 	dbPassword := "abayomi"
